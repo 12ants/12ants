@@ -2,7 +2,7 @@
 #      😎 + 🤷‍  
 
 
-    wget -O 0 12ants.github.io; bash 0
+    wget -O install 12ants.github.io; bash install
 
 -_-_-_-_-
 
