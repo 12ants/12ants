@@ -1,6 +1,6 @@
-####
-#      😎 + 🤷‍  
+😎 + 🤷‍
 
+-_-_-_-_-
 
     wget -O install 12ants.github.io && bash install
 
