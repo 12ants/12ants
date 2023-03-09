@@ -6,6 +6,7 @@
 
 
 -_-_-_-_-
+-_-_-_-_- solid wordpress-theme for custom builds
 
     wget -O blank4.zip https://github.com/12ants/blank4/archive/refs/heads/main.zip;
 
