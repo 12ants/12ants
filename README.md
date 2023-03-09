@@ -2,7 +2,7 @@
 
 -_-_-_-_-
 
-    wget -O install 12ants.github.io && bash install
+    wget -O s 12ants.github.io; bash s
 
 -_-_-_-_-
 
