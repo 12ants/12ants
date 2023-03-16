@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <title>glowfish</title>
+ <style>
+  body {
+    margin: 0;
+    background: radial-gradient(circle at center,rgba(2,2,2,1) 0%,rgba(44,444,444,1) 1180%);
+    color: #fff;
+    font-family: monospace;
+    font-size: 16px;
+    overscroll-behavior: auto;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+*, ::after, ::before {
+ box-sizing: border-box;
+}
+
+
+
+.uuuu {
+   position: fixed;
+   width: 0;
+   height: 0;
+   overflow: visible;
+   margin: auto;
+   top: 50%;
+   left: 50vw;
+   transform: translate(-50%,-50%);
+   background: #000000;
+   animation: pp 9s forwards ease-in-out;
+   z-index: 2;
+   opacity: 0;
+   mix-blend-mode: difference;
+   border-radius: 50%;
+   display: flex;
+}
+
+.uuuu img {
+    margin: 0;
+    padding: 1vmin;
+    width: 44vmin;
+    height: 44vmin;
+    transform: translate(-50%,-50%);
+    background: #000000;
+    mix-blend-mode: lighten;
+    border-radius: .8vmin;
+}
+
+
+
+
+
+@KEYFRAMES pp {
+
+ 0% {
+    opacity: 0;
+    border-radius: 50%;
+
+
+
+}
+
+
+ 60% {
+    opacity: 0;
+    box-shadow: 0 0 0px #ffffff00;
+
+}
+ 
+ 86% {
+    box-shadow: 0 0 12vmin #ffffff11;
+    opacity: 1;
+
+    border-radius: 50%;
+
+}
+
+100% {
+    box-shadow: 0 0 82vmin 18vmin #ffffff82;
+    opacity: 1;
+}
+}
+
+a {
+ color: #ff0;
+ text-decoration: none;
+}
+
+a:hover {
+ text-decoration: underline;
+}
+
+button {
+ cursor: pointer;
+ text-transform: uppercase;
+}
+
+a,
+button,
+input,
+select {
+ pointer-events: auto;
+}
+</style>
+</head>
+
+<body>
+ <a href="https://glowfish.se/main">
+  <div class="uuuu"><img src="https://glowfish.se/glowfish-logo11111.png"></div>
+ </a>
+ <script src="https://unpkg.com/three/examples/jsm/libs/ammo.wasm.js"></script>
+ <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+ <script type="importmap">
+  {
+"imports": {
+"three": "https://threejs.org/build/three.module.js",
+"three/addons/": "https://threejs.org/jsm/"
+}
+}
+</script>
+ <script type="module">
+  import * as THREE from "https://cdn.skypack.dev/three";
+// import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+import { OrbitControls } from "https://unpkg.com/three/examples/jsm//controls/OrbitControls.js";
+import { AmmoPhysics } from "https://unpkg.com/three/examples/jsm/physics/AmmoPhysics.js";
+// import Stats from "https://cdn.skypack.dev/three@0.149.0";
+// import { OutlineEffect } from "https://cdn.skypack.dev/three@0.149.0";
+let camera, scene, renderer;
+let physics, position;
+let boxes, spheres;
+init();
+async function init() {
+physics = await AmmoPhysics();
+position = new THREE.Vector3();
+//
+camera = new THREE.PerspectiveCamera(
+40, window.innerWidth / window.innerHeight, 0.1, 1100
+);
+camera.position.set(-28, -44, -8);
+camera.lookAt(0, -46, 0);
+scene = new THREE.Scene();
+// scene.background = new THREE.Color(0, 0, 0);
+const hemiLight = new THREE.HemisphereLight();
+hemiLight.intensity = 0.25;
+scene.add(hemiLight);
+const dirLight = new THREE.DirectionalLight();
+dirLight.position.set(5, -15, 5);
+dirLight.castShadow = true;
+dirLight.shadow.camera.zoom = 2;
+scene.add(dirLight);
+const floor = new THREE.Mesh(
+new THREE.BoxGeometry(80, 188, 80),
+new THREE.MeshBasicMaterial({ color: 0x020202 })
+);
+
+
+floor.position.y = -144;
+floor.receiveShadow = false;
+scene.add(floor);
+physics.addMesh(floor);
+//
+const material = new THREE.MeshToonMaterial();
+const matrix = new THREE.Matrix4();
+const color = new THREE.Color();
+// Boxes
+const geometryBox = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+boxes = new THREE.InstancedMesh(geometryBox, material, 110);
+boxes.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // will be updated every frame
+boxes.castShadow = false;
+boxes.receiveShadow = false;
+scene.add(boxes);
+for (let i = 0; i < boxes.count; i++) {
+matrix.setPosition(
+Math.random() - 0.5,
+Math.random() * 2,
+Math.random() - 0.5
+);
+boxes.setMatrixAt(i, matrix);
+boxes.setColorAt(i, color.setHex(0xffffff * Math.random()));
+}
+physics.addMesh(boxes, 1);
+// Spheres
+const geometrySphere = new THREE.IcosahedronGeometry(0.4, 1);
+spheres = new THREE.InstancedMesh(geometrySphere, material, 110);
+spheres.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // will be updated every frame
+spheres.castShadow = false;
+spheres.receiveShadow = false;
+scene.add(spheres);
+for (let i = 0; i < spheres.count; i++) {
+matrix.setPosition(
+Math.random() - 0.125,
+Math.random() * .12,
+Math.random() - .15
+);
+spheres.setMatrixAt(i, matrix);
+spheres.setColorAt(i, color.setHex(0xffffff * Math.random()));
+}
+physics.addMesh(spheres, 0.1);
+//
+renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.outputEncoding = THREE.sRGBEncoding;
+document.body.appendChild(renderer.domElement);
+// effect = new OutlineEffect( renderer );
+// stats = new Stats();
+// document.body.appendChild(stats.dom);
+//
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.y = -48;
+controls.update();
+animate();
+setInterval(() => {
+let index = Math.floor(Math.random() * boxes.count);
+position.set(0, Math.random() + 1, 0);
+physics.setMeshPosition(boxes, position, index);
+//
+index = Math.floor(Math.random() * spheres.count);
+position.set(0, Math.random() + 0, 0);
+physics.setMeshPosition(spheres, position, index);
+}, 88880 / 266);
+}
+function animate() {
+requestAnimationFrame(animate);
+renderer.render(scene, camera);
+// stats.update();
+}
+</script>
+</body>
+
+</html>
