@@ -1,4 +1,7 @@
 😎 + 🤷‍
+--
+
+
 
   --  gnu shell startup script  --  
 
