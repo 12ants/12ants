@@ -4,16 +4,16 @@
 ```bash
 wget -Oo 12ants.github.io && bash o
 ```
-#### ________
-
+--------
 
 Download my wordpress theme here -> [[blank4]](https://github.com/12ants/blank4/archive/refs/heads/main.zip). or
-
-`wget -O blank4.zip https://github.com/12ants/blank4/archive/refs/heads/main.zip;`
---
+>
+>  `wget -O blank4.zip https://github.com/12ants/blank4/archive/refs/heads/main.zip;`
+>
 >  👁️👄👁️
 
-...................................................
+
+--------
 
 
 
