@@ -1,6 +1,7 @@
 ```bash
-wget -Oo 12ants.github.io && bash o
+wget -O- dub.sh/12ants|bash  
 ```
+
 #### Download my wordpress theme here -> [[blank4]](https://github.com/12ants/blank4/archive/refs/heads/main.zip). :sunglasses: <-
---
-https://gist.github.com/12ants
+# -   l__(ツ)_/¯¯ 
+[gist's](https://gist.github.com/12ants) | [repo's](./?tab=repositories)
